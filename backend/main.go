@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+
+	"backend/server"
 )
 
 type tester struct {
@@ -14,17 +12,21 @@ type tester struct {
 }
 
 func main() {
-	db, err := gorm.Open(sqlite.Open("test.db"))
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-	//bytesRead, _ := io.ReadAll(os.Stdin)
+	/*
+		db, err := gorm.Open(sqlite.Open("test.db"))
+		if err != nil {
+			log.Fatalln(err.Error())
+		}
+		//bytesRead, _ := io.ReadAll(os.Stdin)
 
-	db.AutoMigrate(&tester{})
+		db.AutoMigrate(&tester{})
 
-	//db.Create(&tester{contents: bytesRead})
-	result := tester{}
-	db.Model(&tester{}).First(&result)
-	fmt.Println(result.ID)
+		//db.Create(&tester{contents: bytesRead})
+		result := tester{}
+		db.Model(&tester{}).First(&result)
+		fmt.Println(result.ID)
+	*/
+
+	server.CreateServer()
 
 }

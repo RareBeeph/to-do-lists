@@ -1,6 +1,8 @@
 package database
 
 import (
+	"fmt"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -11,6 +13,7 @@ type TodoEntry struct {
 
 func OpenDatabase() *gorm.DB {
 	r, _ := gorm.Open(sqlite.Open("test.db")) // unnecessary function as it stands
+	r.AutoMigrate(&TodoEntry{})
 	return r
 }
 
@@ -21,9 +24,12 @@ func HandleCreate(entries ...TodoEntry) {
 	}
 }
 
-func HandleQuery(id string) {
+func HandleQuery(id string) TodoEntry {
 	db := OpenDatabase()
-	db.Model(&TodoEntry{}).Where("ID = ?", id) // especially untested
+	var result TodoEntry
+	db.Model(&TodoEntry{}).Where("ID = ?", id).First(&result) // especially untested
+	fmt.Println(result)
+	return result
 }
 
 func HandleDelete() {

@@ -27,13 +27,13 @@ func CreateServer() {
 		HandlePOST(ctx.Request)
 	})
 
-	// server.Run()
+	server.Run()
 }
 
 func HandleGET(ctx *gin.Context) {
 	// TODO: determine query from req
 	queryId := ctx.Param("id")
-	database.HandleQuery(queryId)
+	ctx.String(http.StatusOK, database.HandleQuery(queryId).CreatedAt.String())
 }
 
 func HandlePUT(ctx *gin.Context) {
