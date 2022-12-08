@@ -14,19 +14,19 @@ import (
 func CreateServer() {
 	server := gin.Default()
 
-	server.GET("/:user/:id/", func(ctx *gin.Context) {
+	server.GET("/:user/:id", func(ctx *gin.Context) {
 		HandleGET(ctx)
 	})
 
-	server.PUT("/:user/:id/", func(ctx *gin.Context) {
+	server.PUT("/:user/:id", func(ctx *gin.Context) {
 		HandlePUT(ctx)
 	})
 
-	server.DELETE("/:user/:id/", func(ctx *gin.Context) {
+	server.DELETE("/:user/:id", func(ctx *gin.Context) {
 		HandleDELETE(ctx)
 	})
 
-	server.POST("/:user/", func(ctx *gin.Context) {
+	server.POST("/:user", func(ctx *gin.Context) {
 		HandlePOST(ctx)
 	})
 
