@@ -11,26 +11,16 @@ import (
 	"backend/database"
 )
 
-func CreateServer() {
-	server := gin.Default()
+func CreateServer() *gin.Engine {
+	router := gin.Default()
+	todoGroup := router.Group("/todo")
 
-	server.GET("/:user/:id", func(ctx *gin.Context) {
-		HandleGET(ctx)
-	})
+	todoGroup.GET("/:id", HandleGET)
+	todoGroup.PUT("/:id", HandlePUT)
+	todoGroup.DELETE("/:id", HandleDELETE)
+	todoGroup.POST("", HandlePOST)
 
-	server.PUT("/:user/:id", func(ctx *gin.Context) {
-		HandlePUT(ctx)
-	})
-
-	server.DELETE("/:user/:id", func(ctx *gin.Context) {
-		HandleDELETE(ctx)
-	})
-
-	server.POST("/:user", func(ctx *gin.Context) {
-		HandlePOST(ctx)
-	})
-
-	server.Run() // TODO: this probably isn't ideal
+	return router
 }
 
 func HandleGET(ctx *gin.Context) {

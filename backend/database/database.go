@@ -25,7 +25,6 @@ func OpenDatabase() *gorm.DB {
 }
 
 func HandleCreate(entries ...TodoEntry) {
-	// TODO: implement body specification
 	// TODO: maybe generalize the creation process to allow for easier addition or removal of variables in the struct
 
 	db := OpenDatabase()

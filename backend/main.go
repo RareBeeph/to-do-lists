@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	server.CreateServer() //TODO: are func mains supposed to be this small???
+	router := server.CreateServer()
+	router.Run()
 }
