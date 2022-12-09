@@ -15,6 +15,7 @@ func CreateServer() *gin.Engine {
 	router := gin.Default()
 	todoGroup := router.Group("/todo")
 
+	todoGroup.GET("", HandleGETall)
 	todoGroup.GET("/:id", HandleGET)
 	todoGroup.PUT("/:id", HandlePUT)
 	todoGroup.DELETE("/:id", HandleDELETE)
@@ -23,10 +24,21 @@ func CreateServer() *gin.Engine {
 	return router
 }
 
+func HandleGETall(ctx *gin.Context) {
+	// TODO: might deserve to be a part of HandleGET
+	a := database.HandleQueryAll()
+	output := ""
+	for _, b := range a {
+		output += b.Body
+	}
+	ctx.String(http.StatusOK, output)
+}
+
 func HandleGET(ctx *gin.Context) {
 	// TODO: users would want more query types i bet
 	queryId := ctx.Param("id")
-	ctx.String(http.StatusOK, database.HandleQuery(queryId).CreatedAt.String()) // TODO: return different status on failure
+	ctx.String(http.StatusOK, database.HandleQuery(queryId).Body) // TODO: return different status on failure
+	//TODO: maybe don't just return the body
 }
 
 func HandlePUT(ctx *gin.Context) {
@@ -47,5 +59,5 @@ func HandlePOST(ctx *gin.Context) {
 	body, _ := io.ReadAll(ctx.Request.Body)
 	entry.Body = (string)(body)
 	database.HandleCreate(entry)
-	// TODO: handle response
+	ctx.String(http.StatusOK, "Something happened") // TODO: handle response
 }

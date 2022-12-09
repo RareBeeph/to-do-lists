@@ -24,6 +24,8 @@ func OpenDatabase() *gorm.DB {
 	return r
 }
 
+// TODO: in general, probably generalize what struct the actions are being performed on
+
 func HandleCreate(entries ...TodoEntry) {
 	// TODO: maybe generalize the creation process to allow for easier addition or removal of variables in the struct
 
@@ -40,6 +42,15 @@ func HandleQuery(id string) TodoEntry {
 	db.Model(&TodoEntry{}).Where("ID = ?", id).First(&result)
 	log.Println(result)
 	return result
+}
+
+func HandleQueryAll() []TodoEntry {
+	// TODO: it might be better to just make HandleQuery more versatile
+
+	db := OpenDatabase()
+	var test []TodoEntry
+	db.Find(&test)
+	return test
 }
 
 func HandleDelete(id string) string {
