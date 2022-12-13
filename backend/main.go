@@ -1,10 +1,10 @@
 package main
 
 import (
-	"backend/server"
+	"backend/controllers"
 )
 
 func main() {
-	router := server.CreateServer()
+	router := controllers.CreateServer()
 	router.Run()
 }
