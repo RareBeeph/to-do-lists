@@ -16,27 +16,26 @@ type TodoEntry struct {
 	// TODO: include actually useful information
 }
 
-func OpenDatabase() *gorm.DB {
-	// TODO: not a fan of having to open the database for each request handled. look into avoiding that
+var db *gorm.DB
+
+func init() {
+	// TODO: test the recent changes
 
 	r, _ := gorm.Open(sqlite.Open("test.db"))
-	r.AutoMigrate(&TodoEntry{}) // TODO: figure out if this is a bad idea
-	return r
+	db = r
+	db.AutoMigrate(&TodoEntry{})
 }
 
 // TODO: in general, probably generalize what struct the actions are being performed on
 
 func HandleCreate(entries ...TodoEntry) {
 	// TODO: maybe generalize the creation process to allow for easier addition or removal of variables in the struct
-
-	db := OpenDatabase()
 	for _, entry := range entries {
 		db.Create(&entry)
 	}
 }
 
 func HandleQuery(id string) TodoEntry {
-	db := OpenDatabase()
 	var result TodoEntry
 
 	db.Model(&TodoEntry{}).Where("ID = ?", id).First(&result)
@@ -47,14 +46,12 @@ func HandleQuery(id string) TodoEntry {
 func HandleQueryAll() []TodoEntry {
 	// TODO: it might be better to just make HandleQuery more versatile
 
-	db := OpenDatabase()
 	var test []TodoEntry
 	db.Find(&test)
 	return test
 }
 
 func HandleDelete(id string) string {
-	db := OpenDatabase()
 	entry := db.Model(&TodoEntry{}).Where("ID = ?", id).First(&TodoEntry{})
 
 	if entry.Error == nil {
@@ -70,7 +67,6 @@ func HandleDelete(id string) string {
 }
 
 func HandleUpdate(id string, body string) (string, error) {
-	db := OpenDatabase()
 	var entry TodoEntry
 
 	if db.Model(&TodoEntry{}).Where("ID = ?", id).First(&entry).Error == nil {

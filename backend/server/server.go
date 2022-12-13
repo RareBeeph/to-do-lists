@@ -29,7 +29,7 @@ func HandleGETall(ctx *gin.Context) {
 	a := database.HandleQueryAll()
 	output := ""
 	for _, b := range a {
-		output += b.Body
+		output += b.Body + "\n"
 	}
 	ctx.String(http.StatusOK, output)
 }
